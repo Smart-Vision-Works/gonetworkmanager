@@ -42,6 +42,7 @@ const (
 	DevicePropertyLldpNeighbors        = DeviceInterface + ".LldpNeighbors"        // readable   aa{sv}
 	DevicePropertyReal                 = DeviceInterface + ".Real"                 // readable   b
 	DevicePropertyIp4Connectivity      = DeviceInterface + ".Ip4Connectivity"      // readable   u
+	DevicePropertyInterfaceFlags       = DeviceInterface + ".InterfaceFlags"       // readable   u
 )
 
 func DeviceFactory(objectPath dbus.ObjectPath) (Device, error) {
@@ -149,6 +150,9 @@ type Device interface {
 
 	// True if the device exists, or False for placeholder devices that do not yet exist but could be automatically created by NetworkManager if one of their AvailableConnections was activated.
 	GetPropertyReal() (bool, error)
+
+	// The flags of the network interface. See NMDeviceInterfaceFlags for the currently defined flags.
+	GetPropertyInterfaceFlags() (NMDeviceInterfaceFlags, error)
 
 	MarshalJSON() ([]byte, error)
 }
@@ -307,6 +311,11 @@ func (d *device) GetPropertyMtu() (uint32, error) {
 
 func (d *device) GetPropertyReal() (bool, error) {
 	return d.getBoolProperty(DevicePropertyReal)
+}
+
+func (d *device) GetPropertyInterfaceFlags() (NMDeviceInterfaceFlags, error) {
+	v, err := d.getUint32Property(DevicePropertyInterfaceFlags)
+	return NMDeviceInterfaceFlags(v), err
 }
 
 func (d *device) marshalMap() (map[string]interface{}, error) {

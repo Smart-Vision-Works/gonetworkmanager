@@ -288,3 +288,13 @@ const (
 	NmRollbackResultErrDeviceUnmanaged = 2 // the device is now unmanaged.
 	NmRollbackResultErrFailed          = 3 // other errors during rollback.
 )
+
+//go:generate stringer -type=NMDeviceInterfaceFlags
+type NMDeviceInterfaceFlags uint32
+
+const (
+	NmDeviceInterfaceFlagNone    NMDeviceInterfaceFlags = 0       // an alias for numeric zero, no flags set.
+	NmDeviceInterfaceFlagUp      NMDeviceInterfaceFlags = 0x1     // the interface is enabled from the administrative point of view. Corresponds to kernel IFF_UP.
+	NmDeviceInterfaceFlagLowerUp NMDeviceInterfaceFlags = 0x2     // the physical link is up. Corresponds to kernel IFF_LOWER_UP.
+	NmDeviceInterfaceFlagCarrier NMDeviceInterfaceFlags = 0x10000 // the interface has carrier. In most cases this is equal to the value of @NM_DEVICE_INTERFACE_FLAG_LOWER_UP. However some devices have a non-standard carrier detection mechanism.
+)
