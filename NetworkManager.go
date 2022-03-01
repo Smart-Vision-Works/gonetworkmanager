@@ -546,7 +546,7 @@ func (nm *networkManager) GetPropertyActiveConnections() ([]ActiveConnection, er
 func (nm *networkManager) GetPropertyPrimaryConnection() (ActiveConnection, error) {
 	activeConnectionPath, err := nm.getObjectProperty(NetworkManagerPropertyPrimaryConnection)
 
-	if err != nil {
+	if err != nil || activeConnectionPath == "/" {
 		return nil, err
 	}
 
